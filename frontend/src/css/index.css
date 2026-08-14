@@ -1,0 +1,8 @@
+@import "tailwindcss";
+@plugin "daisyui";
+
+@theme {
+  --font-noto-sans-jp: "Noto Sans JP", sans-serif;
+  --text-2xs: 0.625rem;
+  --text-3xs: 0.5rem;
+}
