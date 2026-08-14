@@ -194,22 +194,22 @@ app.delete("/api/reservations/:id", async (req, res) => {
 
 /* ============================
    ダッシュボード情報（GET）
-   
+
    ★通常予約
    ＋
    ★顧客詳細で設定した次回予約
-   
+
    の両方をダッシュボードに反映
 ============================ */
 app.get("/api/dashboard", async (req, res) => {
   try {
     /* ============================
        今月の予約数
-       
+
        reservations
        ＋
        customers.nextReservation
-       
+
        同じ顧客・同じ日時は重複カウントしない
     ============================ */
     const [reservationCountRows] = await db.query(`
@@ -258,11 +258,11 @@ app.get("/api/dashboard", async (req, res) => {
 
     /* ============================
        最近の予約
-       
+
        通常予約
        ＋
        次回予約
-       
+
        今後の予約を近い順に取得
     ============================ */
     const [recentReservationRows] = await db.query(`
@@ -666,16 +666,6 @@ app.delete("/api/visits/:visitId", async (req, res) => {
 });
 
 /* ============================
-   サーバー起動
+   アプリをエクスポート
 ============================ */
-app.listen(3001, () => {
-  console.log("server running on 3001");
-});
-const express = require("express");
-const app = express();
-
-app.get("/api/hello", (req, res) => {
-  res.json({ message: "Hello from backend!" });
-});
-
-app.listen(3000, () => console.log("Server running"));
+module.exports = app;
