@@ -13,14 +13,26 @@ app.use(bodyParser.json());
 ============================ */
 app.get("/api/customers", async (req, res) => {
   try {
+    console.log("CUSTOMERS API START");
+
     const [rows] = await db.query("SELECT * FROM customers ORDER BY id DESC");
+
+    console.log("CUSTOMERS SQL OK", rows.length);
 
     res.json(rows);
   } catch (err) {
-    console.error(err);
+    console.error("CUSTOMERS SQL ERROR", {
+      message: err.message,
+      code: err.code,
+      errno: err.errno,
+      sqlState: err.sqlState,
+      stack: err.stack,
+    });
 
     res.status(500).json({
       error: "顧客一覧の取得に失敗しました",
+      detail: err.message,
+      code: err.code,
     });
   }
 });
