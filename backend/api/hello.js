@@ -1,20 +1,44 @@
-const dns = require("dns");
+const net = require("net");
 
 module.exports = async (req, res) => {
-  try {
-    const host = process.env.DB_HOST;
+  const host = process.env.DB_HOST;
+  const port = Number(process.env.DB_PORT);
 
-    const addresses = await dns.promises.lookup(host, {
-      all: true,
-    });
+  const socket = new net.Socket();
+
+  socket.setTimeout(5000);
+
+  socket.connect(port, host, () => {
+    socket.destroy();
 
     res.status(200).json({
+      success: true,
+      message: "TCP CONNECT OK",
       host,
-      addresses,
+      port,
     });
-  } catch (err) {
+  });
+
+  socket.on("timeout", () => {
+    socket.destroy();
+
     res.status(500).json({
-      error: err.message,
+      success: false,
+      error: "TCP CONNECT TIMEOUT",
+      host,
+      port,
     });
-  }
+  });
+
+  socket.on("error", (err) => {
+    socket.destroy();
+
+    res.status(500).json({
+      success: false,
+      error: err.message,
+      code: err.code,
+      host,
+      port,
+    });
+  });
 };
