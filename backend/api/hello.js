@@ -1,44 +1,39 @@
-const net = require("net");
+const mysql = require("mysql2/promise");
 
 module.exports = async (req, res) => {
-  const host = process.env.DB_HOST;
-  const port = Number(process.env.DB_PORT);
+  let conn;
 
-  const socket = new net.Socket();
+  try {
+    conn = await mysql.createConnection({
+      host: process.env.DB_HOST,
+      port: Number(process.env.DB_PORT),
+      user: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME,
+      ssl: {
+        rejectUnauthorized: false,
+      },
+      connectTimeout: 5000,
+    });
 
-  socket.setTimeout(5000);
-
-  socket.connect(port, host, () => {
-    socket.destroy();
+    const [rows] = await conn.query("SELECT 1 AS ok");
 
     res.status(200).json({
       success: true,
-      message: "TCP CONNECT OK",
-      host,
-      port,
+      message: "MYSQL CONNECT OK",
+      result: rows,
     });
-  });
-
-  socket.on("timeout", () => {
-    socket.destroy();
-
-    res.status(500).json({
-      success: false,
-      error: "TCP CONNECT TIMEOUT",
-      host,
-      port,
-    });
-  });
-
-  socket.on("error", (err) => {
-    socket.destroy();
-
+  } catch (err) {
     res.status(500).json({
       success: false,
       error: err.message,
       code: err.code,
-      host,
-      port,
+      errno: err.errno,
+      sqlState: err.sqlState,
     });
-  });
+  } finally {
+    if (conn) {
+      await conn.end().catch(() => {});
+    }
+  }
 };
