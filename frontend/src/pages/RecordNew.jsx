@@ -1,6 +1,7 @@
 // src/pages/RecordNew.jsx
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { API_URL } from "../api";
 
 export default function RecordNew() {
   const navigate = useNavigate();
@@ -40,7 +41,7 @@ export default function RecordNew() {
     e.preventDefault();
 
     try {
-      const res = await fetch("http://localhost:3001/api/customers", {
+      const res = await fetch(`${API_URL}/api/customers`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -87,7 +88,7 @@ export default function RecordNew() {
           ← 戻る
         </button>
 
-        <h1 className="text-2xl font-bold tracking-wide">新規カルテ作成</h1>
+        <h1 className="text-2xl font-bold tracking-wide">新規顧客登録</h1>
       </div>
 
       <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-8">

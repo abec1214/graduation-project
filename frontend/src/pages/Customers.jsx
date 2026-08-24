@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { API_URL } from "../api";
 
 export default function Customers() {
   const [query, setQuery] = useState("");
@@ -7,7 +8,7 @@ export default function Customers() {
 
   // MySQL から顧客一覧を取得
   useEffect(() => {
-    fetch("http://localhost:3001/api/customers")
+    fetch(`${API_URL}/api/customers`)
       .then((res) => res.json())
       .then((data) => {
         console.log("★★★ APIから取得した顧客一覧 ★★★", data);
@@ -29,7 +30,7 @@ export default function Customers() {
     }
 
     try {
-      const res = await fetch(`http://localhost:3001/api/customers/${id}`, {
+      const res = await fetch(`${API_URL}/api/customers/${id}`, {
         method: "DELETE",
       });
 

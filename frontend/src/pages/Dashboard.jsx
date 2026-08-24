@@ -1,6 +1,7 @@
 // src/pages/Dashboard.jsx
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { API_URL } from "../api";
 
 export default function Dashboard() {
   const [stats, setStats] = useState({
@@ -13,7 +14,7 @@ export default function Dashboard() {
 
   // MySQLからダッシュボード情報を取得
   useEffect(() => {
-    fetch("http://localhost:3001/api/dashboard")
+    fetch(`${API_URL}/api/dashboard`)
       .then((res) => {
         if (!res.ok) {
           throw new Error("ダッシュボード情報の取得に失敗しました");

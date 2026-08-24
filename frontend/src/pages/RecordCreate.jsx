@@ -1,6 +1,7 @@
 // src/pages/RecordCreate.jsx
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { API_URL } from "../api";
 import { addReservation } from "../data/reservations";
 
 export default function RecordCreate() {
@@ -9,7 +10,7 @@ export default function RecordCreate() {
   const [customers, setCustomers] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:3001/api/customers")
+    fetch(`${API_URL}/api/customers`)
       .then((res) => res.json())
       .then((data) => {
         console.log("新規カルテ用 顧客一覧:", data);
@@ -50,7 +51,7 @@ export default function RecordCreate() {
     const reservationDate = `${form.date} ${form.startTime}`;
 
     try {
-      const res = await fetch("http://localhost:3001/api/reservations", {
+      const res = await fetch(`${API_URL}/api/reservations`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

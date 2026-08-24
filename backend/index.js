@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
@@ -80,7 +82,7 @@ app.get("/api/reservations", async (req, res) => {
       SELECT
         r.id,
         r.customer_id AS patientId,
-        r.reservation_date AS date,
+        r.reservation_date AS reservation_date,
         r.type,
         r.duration,
         r.pressure,
@@ -156,6 +158,81 @@ app.post("/api/reservations", async (req, res) => {
 
     res.status(500).json({
       error: "予約の追加に失敗しました",
+    });
+  }
+});
+
+/* ============================
+   予約編集（PUT）
+============================ */
+app.put("/api/reservations/:id", async (req, res) => {
+  const { id } = req.params;
+
+  const {
+    customer_id,
+    reservation_date,
+    duration,
+    type,
+    pressure,
+    allergy,
+    memo,
+  } = req.body;
+
+  console.log("PUT受信データ:", {
+    id,
+    customer_id,
+    reservation_date,
+    duration,
+    type,
+    pressure,
+    allergy,
+    memo,
+  });
+  try {
+    const [result] = await db.query(
+      `UPDATE reservations
+       SET customer_id = ?,
+           reservation_date = ?,
+           duration = ?,
+           type = ?,
+           pressure = ?,
+           allergy = ?,
+           memo = ?
+       WHERE id = ?`,
+      [
+        customer_id,
+        reservation_date,
+        duration || null,
+        type || null,
+        pressure || null,
+        allergy || null,
+        memo || null,
+        id,
+      ],
+    );
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({
+        error: "予約が見つかりません",
+      });
+    }
+
+    res.json({
+      success: true,
+      id,
+      customer_id,
+      reservation_date,
+      duration,
+      type,
+      pressure,
+      allergy,
+      memo,
+    });
+  } catch (err) {
+    console.error("予約編集エラー:", err);
+
+    res.status(500).json({
+      error: "予約の編集に失敗しました",
     });
   }
 });
@@ -387,10 +464,11 @@ app.get("/api/customers/:id", async (req, res) => {
       visits: visitRows,
     });
   } catch (err) {
-    console.error(err);
+    console.error("顧客詳細取得エラー:", err);
 
     res.status(500).json({
       error: "顧客詳細の取得に失敗しました",
+      detail: err.message,
     });
   }
 });
@@ -664,4 +742,16 @@ app.delete("/api/visits/:visitId", async (req, res) => {
     });
   }
 });
+
+/* ============================
+   ローカルサーバー起動
+============================ */
+if (require.main === module) {
+  const PORT = process.env.PORT || 3001;
+
+  app.listen(PORT, () => {
+    console.log(`Backend server running on http://localhost:${PORT}`);
+  });
+}
+
 module.exports = app;

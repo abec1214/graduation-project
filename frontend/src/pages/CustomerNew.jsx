@@ -1,6 +1,7 @@
 // src/pages/CustomerNew.jsx
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { API_URL } from "../api";
 
 export default function CustomerNew() {
   const navigate = useNavigate();
@@ -21,7 +22,7 @@ export default function CustomerNew() {
 
     try {
       // ★ バックエンド API に送信（本物の登録）
-      const res = await fetch("http://localhost:3001/api/customers", {
+      const res = await fetch(`${API_URL}/api/customers`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),

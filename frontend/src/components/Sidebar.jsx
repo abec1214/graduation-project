@@ -41,6 +41,11 @@ export default function Sidebar() {
         {/* 予約管理 */}
         <Link
           to="/reservations"
+          onClick={() => {
+            if (location.pathname === "/reservations") {
+              window.location.reload();
+            }
+          }}
           className={`flex items-center px-6 py-4 rounded-r-full hover:bg-[#2a4a40] transition ${
             location.pathname.includes("reservations") ||
             location.pathname.includes("patients") ||

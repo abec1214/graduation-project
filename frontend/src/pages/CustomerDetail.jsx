@@ -1,5 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { API_URL } from "../api";
 
 export default function CustomerDetail() {
   const { customerId } = useParams();
@@ -66,7 +67,7 @@ export default function CustomerDetail() {
   // =========================
   const fetchCustomerDetail = async () => {
     try {
-      const res = await fetch(`http://localhost:3001/api/customers/${id}`);
+      const res = await fetch(`${API_URL}/api/customers/${id}`);
 
       const data = await res.json();
 
@@ -174,7 +175,7 @@ export default function CustomerDetail() {
         return false;
       }
 
-      const res = await fetch(`http://localhost:3001${endpoint}`, {
+      const res = await fetch(`${API_URL}${endpoint}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -211,19 +212,16 @@ export default function CustomerDetail() {
     }
 
     try {
-      const res = await fetch(
-        `http://localhost:3001/api/customers/${id}/visits`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            date: newDate,
-            menu: newMenu,
-          }),
+      const res = await fetch(`${API_URL}/api/customers/${id}/visits`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+        body: JSON.stringify({
+          date: newDate,
+          menu: newMenu,
+        }),
+      });
 
       const result = await res.json().catch(() => ({}));
 
@@ -248,13 +246,18 @@ export default function CustomerDetail() {
   // 施術履歴更新
   // =========================
   const updateVisit = async (visitId) => {
+    console.log("★★★ updateVisit 呼び出し ★★★", {
+      visitId,
+      editDate,
+      editMenu,
+    });
     if (!editDate || !editMenu) {
       alert("日付とメニューを入力してください");
       return;
     }
 
     try {
-      const res = await fetch(`http://localhost:3001/api/visits/${visitId}`, {
+      const res = await fetch(`${API_URL}/api/visits/${visitId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -293,7 +296,7 @@ export default function CustomerDetail() {
     }
 
     try {
-      const res = await fetch(`http://localhost:3001/api/visits/${visitId}`, {
+      const res = await fetch(`${API_URL}/api/visits/${visitId}`, {
         method: "DELETE",
       });
 
@@ -315,12 +318,9 @@ export default function CustomerDetail() {
   // =========================
   const deleteCustomer = async (customerIdValue) => {
     try {
-      const res = await fetch(
-        `http://localhost:3001/api/customers/${customerIdValue}`,
-        {
-          method: "DELETE",
-        },
-      );
+      const res = await fetch(`${API_URL}/api/customers/${customerIdValue}`, {
+        method: "DELETE",
+      });
 
       const result = await res.json().catch(() => ({}));
 

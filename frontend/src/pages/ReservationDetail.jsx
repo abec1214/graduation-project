@@ -1,6 +1,7 @@
 // src/pages/ReservationDetail.jsx
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { API_URL } from "../api";
 
 export default function ReservationDetail() {
   const { customerId } = useParams();
@@ -50,7 +51,7 @@ export default function ReservationDetail() {
     try {
       setLoading(true);
 
-      const res = await fetch(`http://localhost:3001/api/customers/${id}`);
+      const res = await fetch(`${API_URL}/api/customers/${id}`);
 
       const data = await res.json();
 
@@ -116,7 +117,7 @@ export default function ReservationDetail() {
         return;
       }
 
-      const res = await fetch(`http://localhost:3001${endpoint}`, {
+      const res = await fetch(`${API_URL}${endpoint}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -147,19 +148,16 @@ export default function ReservationDetail() {
     }
 
     try {
-      const res = await fetch(
-        `http://localhost:3001/api/customers/${id}/visits`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            date: newDate,
-            menu: newMenu,
-          }),
+      const res = await fetch(`${API_URL}/api/customers/${id}/visits`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+        body: JSON.stringify({
+          date: newDate,
+          menu: newMenu,
+        }),
+      });
 
       const result = await res.json();
 
@@ -183,7 +181,7 @@ export default function ReservationDetail() {
   // ============================
   const updateVisit = async (visitId) => {
     try {
-      const res = await fetch(`http://localhost:3001/api/visits/${visitId}`, {
+      const res = await fetch(`${API_URL}/api/visits/${visitId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -220,7 +218,7 @@ export default function ReservationDetail() {
     }
 
     try {
-      const res = await fetch(`http://localhost:3001/api/visits/${visitId}`, {
+      const res = await fetch(`${API_URL}/api/visits/${visitId}`, {
         method: "DELETE",
       });
 
@@ -246,7 +244,7 @@ export default function ReservationDetail() {
     }
 
     try {
-      const res = await fetch(`http://localhost:3001/api/customers/${id}`, {
+      const res = await fetch(`${API_URL}/api/customers/${id}`, {
         method: "DELETE",
       });
 
