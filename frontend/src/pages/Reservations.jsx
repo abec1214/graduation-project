@@ -66,7 +66,7 @@ export default function Reservations() {
       return;
     }
 
-    if (!editingReservation.reservation_date) {
+    if (!editingReservation.reservationDate) {
       alert("予約日時を入力してください");
       return;
     }
@@ -86,7 +86,7 @@ export default function Reservations() {
           },
           body: JSON.stringify({
             customer_id: editingReservation.patientId,
-            reservation_date: editingReservation.reservation_date,
+            reservation_date: `${editingReservation.reservationDate} ${editingReservation.startTime}:00`,
             duration: Number(editingReservation.duration),
             type: editingReservation.type,
             pressure: editingReservation.pressure,
