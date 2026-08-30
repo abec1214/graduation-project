@@ -26,7 +26,7 @@ export default function Sidebar() {
           <span className="mr-4 text-lg">📊</span>
           <span className="text-sm">ダッシュボード</span>
         </Link>
-        {/* 施術記録 */}
+        {/* 施術記録 
         <Link
           to="/records"
           className={`flex items-center px-6 py-4 rounded-r-full hover:bg-[#2a4a40] transition ${
@@ -35,7 +35,7 @@ export default function Sidebar() {
         >
           <span className="mr-4 text-lg">📋</span>
           <span className="text-sm">施術記録</span>
-        </Link>
+        </Link> */}
         {/* 顧客検索 */}
         <Link
           to="/customers"
