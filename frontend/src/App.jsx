@@ -4,6 +4,7 @@ import AppLayout from "./layouts/AppLayout";
 
 import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
+import Records from "./pages/Records";
 import Reservations from "./pages/Reservations";
 
 import Customers from "./pages/Customers";
@@ -23,8 +24,11 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<AppLayout />}>
-          {/* ホーム */}
-          <Route index element={<Home />} />
+          {/* トップページはダッシュボード */}
+          <Route index element={<Dashboard />} />
+
+          {/* 施術記録 */}
+          <Route path="records" element={<Records />} />
 
           {/* ダッシュボード */}
           <Route path="dashboard" element={<Dashboard />} />
