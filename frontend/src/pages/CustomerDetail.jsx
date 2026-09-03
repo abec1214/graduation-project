@@ -432,7 +432,7 @@ export default function CustomerDetail() {
           <h2 className="text-3xl font-bold">{customer.name}</h2>
         </div>
 
-        {/* 右側：次回予約 */}
+        {/* 右側：次回予約 
         {isEditingNext ? (
           <div className="flex items-center gap-2">
             <input
@@ -488,7 +488,7 @@ export default function CustomerDetail() {
               編集
             </button>
           </div>
-        )}
+        )}*/}
       </div>
 
       {/* ==================================================
