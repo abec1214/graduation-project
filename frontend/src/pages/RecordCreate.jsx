@@ -110,7 +110,7 @@ export default function RecordCreate() {
           ← 戻る
         </button>
 
-        <h1 className="text-2xl font-bold text-[#2a2a2a]">新規カルテ作成</h1>
+        <h1 className="text-2xl font-bold text-[#2a2a2a]">新規予約作成</h1>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">

@@ -60,7 +60,7 @@ export default function RecordDetail({ record, isCreating, onSave }) {
   if (isCreating) {
     return (
       <div className="space-y-8 p-6 bg-[#f9f5ee] rounded-lg shadow">
-        <h2 className="text-xl font-bold text-gray-900 mb-4">新規カルテ作成</h2>
+        <h2 className="text-xl font-bold text-gray-900 mb-4">新規予約作成</h2>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* 顧客名 */}
