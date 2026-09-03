@@ -35,14 +35,11 @@ export default function Reservations() {
     let startTime = "";
 
     if (rawDate) {
-      const date = new Date(rawDate);
+      const text = String(rawDate);
+      const match = text.match(/^(\d{4})-(\d{2})-(\d{2})[T\s](\d{2}):(\d{2})/);
 
-      if (!Number.isNaN(date.getTime())) {
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, "0");
-        const day = String(date.getDate()).padStart(2, "0");
-        const hours = String(date.getHours()).padStart(2, "0");
-        const minutes = String(date.getMinutes()).padStart(2, "0");
+      if (match) {
+        const [, year, month, day, hours, minutes] = match;
 
         reservationDate = `${year}-${month}-${day}`;
         startTime = `${hours}:${minutes}`;
@@ -155,19 +152,16 @@ export default function Reservations() {
       return "";
     }
 
-    const date = new Date(value);
+    const text = String(value);
+    const match = text.match(/^(\d{4})-(\d{2})-(\d{2})[T\s](\d{2}):(\d{2})/);
 
-    if (Number.isNaN(date.getTime())) {
+    if (!match) {
       return value;
     }
 
-    return date.toLocaleString("ja-JP", {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
+    const [, year, month, day, hours, minutes] = match;
+
+    return `${year}/${month}/${day} ${hours}:${minutes}`;
   };
 
   return (
